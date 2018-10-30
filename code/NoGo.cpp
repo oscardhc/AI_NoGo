@@ -58,7 +58,6 @@ const int dx[]={0,0,1,-1},dy[]={1,-1,0,0};
 queue< pair<int,int> > q,qq,qqq;
 int bk[9][9],ok[9][9],a[9][9],qc[9][9],tmp[9][9],q1,q2;
 inline void bfs(int sx,int sy,int type){
-    // fprintf(stderr,"!!!! %d %d\n",sx,sy);
     int qiCnt=0,qix=0,qiy=0;
     bk[sx][sy]=1;
     while(!q.empty()) q.pop();
@@ -162,9 +161,7 @@ inline int simulate(Status s){
 double _beta[200005];
 inline double cal(int k,int flag){
     double beta=_beta[sTree[k].n];
-    if(flag) fprintf(stderr,"%d %d %lf   %d %d   %d %d     ",sTree[k].mvx,sTree[k].mvy,beta,sTree[k].w,sTree[k].n,sTree[k].w1,sTree[k].n1);
     return (1.0-beta)*sTree[k].w/sTree[k].n+beta*sTree[k].w1/sTree[k].n1;
-    // +sqrt(0.1*log(sTree[sTree[k].fa].n)/sTree[k].n)
 }
 inline int getBestSon(int k,int flag){
     double ma=0;int mapo=sTree[k].lson;
@@ -172,7 +169,6 @@ inline int getBestSon(int k,int flag){
         double cu=cal(i,flag);
         if(cu>ma) ma=cu,mapo=i;
         if(sTree[i].n<2) return i;
-        if(flag) fprintf(stderr," %lf\n",cu);
     }
     return mapo;
 }
@@ -256,7 +252,6 @@ pair<int,int> search(Status s0){
             if(clock()-startClock>TIMELIMIT) break;
         }
     }
-    fprintf(stderr,"tot=%d\n",tot);
     int bss=getBestSon(1,1);
     int rex=sTree[bss].mvx,rey=sTree[bss].mvy;
     for(int i=1;i<=tot;i++) sTree[i]=Status();
@@ -264,7 +259,6 @@ pair<int,int> search(Status s0){
 }
 
 void init() {
-    // srand(233);
     srand(time(NULL));
     for(int i=0;i<=200000;i++) _beta[i]=sqrt(K/(K+3*i));
 }
@@ -272,15 +266,6 @@ void init() {
 int bd[9][9];
 void GetUpdate(std::pair<int, int> location) {
     bd[location.first][location.second]=2-ai_side;
-    fprintf(stderr,"UPDATE %d %d\n",location.first,location.second);
-    for(int i=0;i<9;i++){
-        for(int j=0;j<9;j++){
-            if(bd[i][j]) fprintf(stderr,"%d ",bd[i][j]);
-            else fprintf(stderr,". ");
-        }
-        fprintf(stderr,"\n");
-    }
-    fprintf(stderr,"----------------------------\n");
 }
 
 std::pair<int, int> Action() {
@@ -297,21 +282,6 @@ std::pair<int, int> Action() {
     }
     CNT=0;
     pair<int,int> ret = search(ss);
-    fprintf(stderr, "CNT=%d\n", CNT);
     bd[ret.first][ret.second]=ai_side+1;
-    fprintf(stderr,"MOVE %d %d\n",ret.first,ret.second);
     return ret;
 }
-
-// int main(){
-//     srand(time(NULL));
-//     Status ss=Status();
-//     memset(a,0,sizeof(a));
-//     a[8][8]=1;
-//     a[8][7]=2;
-//     ss.init(2,a);
-//     ss.getBoard(a);
-//     findPossiblePos(1);
-//     // search(ss);
-//     return 0;
-// }
