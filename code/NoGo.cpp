@@ -29,7 +29,7 @@ struct Status {
         son.clear();
         exd = 0;
     }
-    inline void getBoard(int board[9][9]) {
+    inline void getBoard (int board[9][9]) {
         unsigned long long _a[3];
         for (int i = 0; i < 3; i++) _a[i]=a[i];
         for (int k = 0; k < 3; k++) {
@@ -41,7 +41,7 @@ struct Status {
             }
         }
     }
-    inline void init(int _color,int board[9][9]) {
+    inline void init (int _color,int board[9][9]) {
         color = _color;
         a[0] = a[1] = a[2] = 0;
         for (int k = 2; k >= 0; k--) {
@@ -57,17 +57,17 @@ struct Status {
 const int dx[]= {0, 0, 1, -1}, dy[]= {1, -1, 0, 0};
 queue< pair<int,int> > q, qq, qqq;
 int bk[9][9], ok[9][9], a[9][9], qc[9][9], tmp[9][9], q1, q2;
-inline void bfs(int sx, int sy, int type) {
+inline void bfs (int sx, int sy, int type) {
     int qiCnt = 0, qix = 0, qiy = 0;
     bk[sx][sy] = 1;
-    while(!q.empty())
+    while (!q.empty())
         q.pop();
-    while(!qq.empty())
+    while (!qq.empty())
         qq.pop();
-    while(!qqq.empty())
+    while (!qqq.empty())
         qqq.pop();
     q.push(make_pair(sx, sy));
-    while(!q.empty()) {
+    while (!q.empty()) {
         int cux = q.front().first, cuy = q.front().second;
         qq.push(q.front());
         q.pop();
@@ -95,24 +95,26 @@ inline void bfs(int sx, int sy, int type) {
             ok[qix][qiy] = 0;
     } else {
         q1 += qiCnt;
-        while(!qq.empty()) {
+        while (!qq.empty()) {
             qc[qq.front().first][qq.front().second] = qiCnt;
             qq.pop();
         }
     }
-    while(!qqq.empty()) {
+    while (!qqq.empty()) {
         tmp[qqq.front().first][qqq.front().second] = 0;
         qqq.pop();
     }
 }
 vector< pair<int,int> > possibleVec, tmpvec;
-inline pair<int,int> findPossiblePos(int color, vector< pair<int,int> > &vcr = possibleVec) {
+inline pair<int,int> findPossiblePos (int color, vector< pair<int,int> > &vcr = possibleVec) {
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             bk[i][j] = 0;
             qc[i][j] = 0;
-            if (!a[i][j]) ok[i][j] = 1;
-            else ok[i][j] = 0;
+            if (!a[i][j])
+                ok[i][j] = 1;
+            else
+                ok[i][j] = 0;
         }
     }
     for (int i = 0; i < 9; i++) {
@@ -128,21 +130,24 @@ inline pair<int,int> findPossiblePos(int color, vector< pair<int,int> > &vcr = p
                 int qcu = 0;
                 for (int k = 0; k < 4; k ++) {
                     int nex = i + dx[k], ney = j + dy[k];
-                    if (nex < 0 || nex > 8 || ney < 0 || ney > 8) continue;
+                    if (nex < 0 || nex > 8 || ney < 0 || ney > 8)
+                        continue;
                     if (a[nex][ney] == color) {
                         qcu = qcu + qc[nex][ney] - 1;
                     } else if (!a[nex][ney]) {
                         qcu = 100;
                     }
                 }
-                if (!qcu) ok[i][j] = 0;
+                if (!qcu)
+                    ok[i][j] = 0;
             }
         }
     }
     vcr.clear();
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
-            if (ok[i][j]) vcr.push_back(make_pair(i, j));
+            if (ok[i][j])
+                vcr.push_back(make_pair(i, j));
         }
     }
     if (!vcr.size())
@@ -151,10 +156,10 @@ inline pair<int,int> findPossiblePos(int color, vector< pair<int,int> > &vcr = p
     return vcr[0];
 }
 
-inline int simulate(Status s) {
+inline int simulate (Status s) {
     int curColor = 3 - s.color;
     s.getBoard(a);
-    while(1) {
+    while (1) {
         pair<int,int> pos = findPossiblePos(curColor);
         if (pos.first == -1) {
             return 3 - curColor;
@@ -165,11 +170,11 @@ inline int simulate(Status s) {
 }
 
 double _beta[200005];
-inline double cal(int k, int flag) {
+inline double cal (int k, int flag) {
     double beta = _beta[sTree[k].n];
     return (1.0 - beta) * sTree[k].w / sTree[k].n + beta * sTree[k].w1 / sTree[k].n1;
 }
-inline int getBestSon(int k, int flag) {
+inline int getBestSon (int k, int flag) {
     double ma = 0;
     int mapo = sTree[k].lson;
     for (int i = sTree[k].lson, rs = sTree[k].rson; i <= rs; i++) {
@@ -186,16 +191,17 @@ int tot = 1, CNT = 0;
 unsigned int startClock;
 vector<int> vs;
 vector< pair<pair<int,int>,int> > va;
-pair<int,int> search(Status s0) {
+pair<int,int> search (Status s0) {
     sTree[1] = s0;
     tot = 1;
-    while(clock()-startClock<TIMELIMIT) {
+    while (clock()-startClock<TIMELIMIT) {
         CNT++;
         int cur = 1, T = 0, t = 0, win = 0;
         vs.clear();
         va.clear();
-        while(1) {
-            if (cur == 0) break;
+        while (1) {
+            if (cur == 0)
+                break;
             if (!sTree[cur].exd) {
                 sTree[cur].getBoard(a);
                 findPossiblePos(3 - sTree[cur].color, possibleVec);
@@ -232,7 +238,7 @@ pair<int,int> search(Status s0) {
         t = T;
         int curColor = 3 - sTree[cur].color;
         sTree[cur].getBoard(a);
-        while(1) {
+        while (1) {
             pair<int,int> pos = findPossiblePos(curColor);
             if (pos.first == -1) {
                 win = 3 - curColor;
@@ -247,34 +253,40 @@ pair<int,int> search(Status s0) {
         for (int i = 0; i < T; i++) {
             int uu = vs[i];
             sTree[uu].n++;
-            if (sTree[uu].color == win) sTree[uu].w++;
+            if (sTree[uu].color == win)
+                sTree[uu].w++;
             int ff = sTree[uu].fa;
-            if (i == 0) continue;
+            if (i == 0)
+                continue;
             for (int j = i - 1; j < t; j++) {
                 if (sTree[ff].color != va[j].second) {
                     int k = sTree[ff].son[(short)(va[j].first.first * 9 + va[j].first.second)];
                     if (k) {
                         sTree[k].n1++;
-                        if (sTree[k].color == win) sTree[k].w1++;
+                        if (sTree[k].color == win)
+                            sTree[k].w1++;
                     }
                 }
             }
-            if (clock() - startClock > TIMELIMIT) break;
+            if (clock() - startClock > TIMELIMIT)
+                break;
         }
     }
     int bss = getBestSon(1, 1);
     int rex = sTree[bss].mvx, rey = sTree[bss].mvy;
-    for (int i = 1; i <= tot; i++) sTree[i] = Status();
+    for (int i = 1; i <= tot; i++)
+        sTree[i] = Status();
     return make_pair(rex, rey);
 }
 
 void init() {
     srand(time(NULL));
-    for (int i = 0; i <= 200000; i++) _beta[i] = sqrt(K / (K + 3 * i));
+    for (int i = 0; i <= 200000; i++)
+        _beta[i] = sqrt(K / (K + 3 * i));
 }
 
 int bd[9][9];
-void GetUpdate(std::pair<int, int> location) {
+void GetUpdate (std::pair<int, int> location) {
     bd[location.first][location.second] = 2 - ai_side;
 }
 
@@ -285,10 +297,14 @@ std::pair<int, int> Action() {
     ss.getBoard(a);
     findPossiblePos(ai_side + 1);
     for (int i = 0, sz = possibleVec.size(); i < sz; i++) {
-        if (possibleVec[i].first == 0 && possibleVec[i].second == 0) return bd[0][0] = ai_side + 1, make_pair(0, 0);
-        if (possibleVec[i].first == 8 && possibleVec[i].second == 0) return bd[8][0] = ai_side + 1, make_pair(8, 0);
-        if (possibleVec[i].first == 0 && possibleVec[i].second == 8) return bd[0][8] = ai_side + 1, make_pair(0, 8);
-        if (possibleVec[i].first == 8 && possibleVec[i].second == 8) return bd[8][8] = ai_side + 1, make_pair(8, 8);
+        if (possibleVec[i].first == 0 && possibleVec[i].second == 0)
+            return bd[0][0] = ai_side + 1, make_pair(0, 0);
+        if (possibleVec[i].first == 8 && possibleVec[i].second == 0)
+            return bd[8][0] = ai_side + 1, make_pair(8, 0);
+        if (possibleVec[i].first == 0 && possibleVec[i].second == 8)
+            return bd[0][8] = ai_side + 1, make_pair(0, 8);
+        if (possibleVec[i].first == 8 && possibleVec[i].second == 8)
+            return bd[8][8] = ai_side + 1, make_pair(8, 8);
     }
     CNT = 0;
     pair<int,int> ret = search(ss);
