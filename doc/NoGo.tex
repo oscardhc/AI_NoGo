@@ -1,13 +1,14 @@
 \documentclass[UTF8]{article}
 \usepackage[UTF8]{ctex}
 
-\usepackage{xunicode, xltxtra, listings, geometry, indentfirst, xeCJK, amsmath, clrscode, enumerate, indentfirst, wrapfig, color, caption, amssymb, multicol, ulem, esvect, bm, amsthm, extarrows, listings-ext}
+\usepackage{xunicode, xltxtra, listings, geometry, indentfirst, xeCJK, amsmath, clrscode, enumerate, indentfirst, wrapfig, color, caption, amssymb, multicol, ulem, esvect, bm, amsthm, extarrows}
 
 \setlength{\parindent}{2em}
 %\setmonofont{Menlo}
 
 \newcounter{RomanNumber}
 \newcommand{\mrm}[1]{(\setcounter{RomanNumber}{#1}\Roman{RomanNumber})}
+\newfontfamily\menlo{Menlo}
 
 \def\e {\mathrm{e}}
 \newcommand{\vc}[1]{\overrightarrow{#1}}
@@ -40,8 +41,8 @@
 }
 
 \lstset{
-language = C++, numbers=left,basicstyle=\footnotesize,
-         numberstyle=\tiny,breaklines=true,
+language = C++, numbers=left,basicstyle=\linespread{0.8}\menlo,
+         numberstyle=\linespread{0.8}\menlo,breaklines=true,
          frame=box,basicstyle=\ttfamily
 }
 

@@ -24,6 +24,12 @@ struct Status {
     unsigned long long a[3];
     int color, exd, mvx, mvy, lson, rson, fa;
     int n, n1, w, w1;
+    
+    // VARIABLES:
+        // This is the status(board) AFTER player <color> placed chess at (<mvx>,<mvy>).
+        // if it's extended with ALL POSSIBLE MOVES, <exd> = 1, then all its sons will be stored continuously: sTree[<lson>] ~ sTree[<rson>].
+        // <n> the succeeding status number, <w> of them causing Player <color>'s win. While <n1> and <w1> is what is inferred.
+
     map<short,int> son;
     inline Status() {
         son.clear();
@@ -31,7 +37,7 @@ struct Status {
     }
     inline void getBoard (int board[9][9]) {
         unsigned long long _a[3];
-        for (int i = 0; i < 3; i++) _a[i]=a[i];
+        for (int i = 0; i < 3; i++) _a[i] = a[i];
         for (int k = 0; k < 3; k++) {
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 9; j++) {
@@ -56,6 +62,8 @@ struct Status {
 } sTree[(int)1e6];
 const int dx[]= {0, 0, 1, -1}, dy[]= {1, -1, 0, 0};
 queue< pair<int,int> > q, qq, qqq;
+    // VARIABLES
+        // <q> BFS queue, <qq> places in the connecting block, <qqq> places means "qi"s.
 int bk[9][9], ok[9][9], a[9][9], qc[9][9], tmp[9][9], q1, q2;
 inline void bfs (int sx, int sy, int type) {
     int qiCnt = 0, qix = 0, qiy = 0;
