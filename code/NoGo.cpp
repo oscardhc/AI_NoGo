@@ -63,8 +63,9 @@ struct Status {
 const int dx[]= {0, 0, 1, -1}, dy[]= {1, -1, 0, 0};
 queue< pair<int,int> > q, qq, qqq;
     // VARIABLES
-        // <q> BFS queue, <qq> places in the connecting block, <qqq> places means "qi"s.
+        // <q> BFS queue, <qq> places in the connecting block, <qqq> places means "qi"s. 
 int bk[9][9], ok[9][9], a[9][9], qc[9][9], tmp[9][9], q1, q2;
+
 inline void bfs (int sx, int sy, int type) {
     int qiCnt = 0, qix = 0, qiy = 0;
     bk[sx][sy] = 1;
